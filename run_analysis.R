@@ -26,21 +26,9 @@ str(tr)
 cf <- as.character(tr$V2)
 colnames(combinedx) <- cf
 
-str(combinedx)
-
-head(combinedx,n= 2)
-
-##'data.frame':        10299 obs. of  561 variables:
-##In features.txt file, 303th to 344th variables have duplicated variable names (except numbers). 
-Please try followed code to remove columns with duplicated variable names. 
-
+# to remove columns with duplicated variable names. 
 combinedxndup <- combinedx[, !duplicated(colnames(combinedx))]
 str(combinedxndup)
-
-# I spent about two hours on this same issue. What I found on google is that dplyr has a difficult time selecting columns based on strings. 
-# 
-# http://stackoverflow.com/questions/25923392/r-dplyr-select-columns-based-on-string
-# This website provides an example of a good work around.
 
 ## extract only the columns that you need 
 
@@ -66,22 +54,18 @@ tests <- read.table("subject_test.txt")
 
 combineds <- rbind2(tests,trains)
 colnames(combineds) <- "subjects"
-head(combineds,n= 10)
 
 ## combine subjects and activity
 combinedas <- cbind(combineds,combinedy)
-head(combinedas,n=32)
-str(combinedas)
 
 ## combine both the sub/activity and X datasets
 combinedasx <- cbind(combinedas,fdata)
-head(combinedasx,n=2)
+
 combinedasx <- combinedasx[,-2]
 
 ## change the following columns as factors
 combinedasx$activity <- as.factor(combinedasx$activity)
 combinedasx$subjects <- as.factor(combinedasx$subjects)
-str(combinedasx)
 
 ## calculate the mean - to do that you need to melt and cast
 install.packages("reshape")
